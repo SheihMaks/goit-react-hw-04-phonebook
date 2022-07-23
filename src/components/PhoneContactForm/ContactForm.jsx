@@ -1,33 +1,40 @@
-import React from "react"
+import {useState} from "react"
 import { nanoid } from "nanoid";
 import { ContactFormContainer,Button,Form,LabelOfInputName,Input, LabelOfInputPhone } from "./ContactForm.styled"
 
-export class ContactForm extends React.Component{
-  state={
-    name: '',
-    number: '',
-  }
-  inputNameId=nanoid();
-  inputNumberId=nanoid();
-  onHandleInput=(e)=>{
-    this.setState({[e.currentTarget.name] : e.currentTarget.value})
+export const ContactForm =({onSubmit})=>{
+  
+  const [name,setName]=useState('');
+  const [number,setNumber]=useState('');
+
+ const inputNameId=nanoid();
+ const inputNumberId=nanoid();
+
+
+ const onHandleInput=(e)=>{
+  const {name,value}=e.currentTarget
+    switch (name){
+      case 'name': setName(value)
+      break;
+      case 'number':setNumber(value)
+      break;
+      default: window.alert('Такой тип ввода не обрабатывается')
+    }
+
   }
   
-  onHandleSubmit=(e)=>{
+  const onHandleSubmit=(e)=>{
     e.preventDefault()
-  this.props.onSubmit(this.state)
-  this.reset()
+    onSubmit({name,number})
+  reset()
   }
 
-  reset=()=>{
-    this.setState({
-    name:'',
-    number:''})}
+  const reset=()=>{
+    setName('');
+  setNumber('');
+}
 
-    render(){
-      const {number,name}=this.state;
-      const {onHandleSubmit,onHandleInput,inputNameId,inputNumberId}=this;
-      return(<ContactFormContainer><Form onSubmit={onHandleSubmit}><LabelOfInputName htmlFor={inputNameId}>Name</LabelOfInputName>
+return(<ContactFormContainer><Form onSubmit={onHandleSubmit}><LabelOfInputName htmlFor={inputNameId}>Name</LabelOfInputName>
     <Input
    type="text"
    name="name"
@@ -51,4 +58,4 @@ export class ContactForm extends React.Component{
 />
 <Button type='submit'>Add contact</Button></Form></ContactFormContainer>)
     
-}}
+}
