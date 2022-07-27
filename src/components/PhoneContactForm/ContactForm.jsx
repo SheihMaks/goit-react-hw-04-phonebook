@@ -19,9 +19,7 @@ export const ContactForm =({onSubmit})=>{
       case 'number':setNumber(value)
       break;
       default: window.alert('Такой тип ввода не обрабатывается')
-    }
-
-  }
+    }}
   
   const onHandleSubmit=(e)=>{
     e.preventDefault()
